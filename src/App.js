@@ -1,33 +1,64 @@
-import React from "react";
-import BackgroundImage from "./features/backgroundImage/BackgroundImage";
-import Weather from "./features/weather/Weather";
-import Quote from "./features/quote/Quote";
-import Error from "./features/error/Error";
-import Journal from "./features/journal/Journal";
-import BackgroundImageLeftControl from "./features/backgroundImage/components/BackgroundImageLeftControl";
-import BackgroundImageRightControl from "./features/backgroundImage/components/BackgroundImageRightControl";
+import React, { useState } from "react";
+import { Switch, Route, NavLink } from "react-router-dom";
+
+import { AppointmentsPage } from "./containers/appointmentsPage/AppointmentsPage";
+import { ContactsPage } from "./containers/contactsPage/ContactsPage";
 
 function App() {
+  /*
+  Define state variables for 
+  contacts and appointments 
+  */
+  const [contacts, setContacts] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+
+  const ROUTES = {
+    CONTACTS: "/contacts",
+    APPOINTMENTS: "/appointments",
+  };
+
+  /*
+  Implement functions to add data to
+  contacts and appointments
+  */
+  const addContact = (contact) => {
+    setContacts((prev) => [contact, ...prev]);
+  }
+
+  const addAppointment = (appointment) => {
+    setAppointments((prev) => [appointment, ...prev]);
+  }
+
   return (
-    <div className="App">
-      <BackgroundImage />
-      <header>
-        <Error />
-        <Weather />
-      </header>
-      <aside className="left-wallpaper-control wallpaper-control">
-        <BackgroundImageLeftControl />
-      </aside>
+    <>
+      <nav>
+        <NavLink to={ROUTES.CONTACTS} activeClassName="active">
+          Contacts
+        </NavLink>
+        <NavLink to={ROUTES.APPOINTMENTS} activeClassName="active">
+          Appointments
+        </NavLink>
+      </nav>
       <main>
-        <Journal />
+        <Switch>
+          <Route path={ROUTES.CONTACTS}>
+            {/* Add props to ContactsPage */}
+            <ContactsPage
+              contacts={contacts}
+              addContact={addContact}
+             />
+          </Route>
+          <Route path={ROUTES.APPOINTMENTS}>
+            {/* Add props to AppointmentsPage */}
+            <AppointmentsPage
+              contacts={contacts}
+              appointments={appointments}
+              addAppointment={addAppointment}
+             />
+          </Route>
+        </Switch>
       </main>
-      <aside className="right-wallpaper-control wallpaper-control">
-        <BackgroundImageRightControl />
-      </aside>
-      <footer>
-        <Quote />
-      </footer>
-    </div>
+    </>
   );
 }
 
