@@ -1,29 +1,33 @@
-import HomePage from './pages/home';
-import SearchPage from './pages/search';
-import PetDetailsPage from './pages/detail';
-import PetDetailsNotFound from './pages/petDetailsNotFound';
-import Navigation from './components/navigation';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from "react";
+import BackgroundImage from "./features/backgroundImage/BackgroundImage";
+import Weather from "./features/weather/Weather";
+import Quote from "./features/quote/Quote";
+import Error from "./features/error/Error";
+import Journal from "./features/journal/Journal";
+import BackgroundImageLeftControl from "./features/backgroundImage/components/BackgroundImageLeftControl";
+import BackgroundImageRightControl from "./features/backgroundImage/components/BackgroundImageRightControl";
 
 function App() {
   return (
-    <Router>
-      <Navigation />
-      <Switch>
-        <Route path="/:type/:id">
-          <PetDetailsPage />
-        </Route>        
-        <Route path="/search">
-          <SearchPage />
-        </Route>        
-        <Route path="/pet-details-not-found">
-          <PetDetailsNotFound />
-        </Route>        
-        <Route path="/:type?">
-          <HomePage />
-        </Route>        
-      </Switch>
-    </Router>
+    <div className="App">
+      <BackgroundImage />
+      <header>
+        <Error />
+        <Weather />
+      </header>
+      <aside className="left-wallpaper-control wallpaper-control">
+        <BackgroundImageLeftControl />
+      </aside>
+      <main>
+        <Journal />
+      </main>
+      <aside className="right-wallpaper-control wallpaper-control">
+        <BackgroundImageRightControl />
+      </aside>
+      <footer>
+        <Quote />
+      </footer>
+    </div>
   );
 }
 
